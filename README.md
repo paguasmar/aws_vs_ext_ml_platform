@@ -33,6 +33,7 @@ The **"Developer-First"** approach. The entire infrastructure—from container d
 | **Cloud Steps** | ECR Push -> IAM Roles -> SageMaker Model -> SageMaker Config -> SageMaker Endpoint -> Lambda IAM -> Lambda Proxy -> API Gateway -> Deployment | `modal deploy` |
 | **Cold Starts** | 15-30 seconds | 2-5 seconds |
 | **Autoscaling (Massive Scale)** | Infinite ceiling, absolute capacity control (slow cold boots) | Instant spike absorption, subject to platform quotas |
+| **Pricing Model** | Complex (API GW + Lambda + SageMaker), cheaper at massive sustained scale | Simple (Per-second active compute), cheaper for spiky/idle workloads |
 | **Vendor Lock-in** | Low (Container runs anywhere) | High (Code uses Modal decorators) |
 
 ---
