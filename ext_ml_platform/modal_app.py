@@ -7,8 +7,8 @@ app = modal.App("qwen-inference")
 # 2. Define the Container Environment (Equivalent to Dockerfile + requirements.txt)
 image = modal.Image.debian_slim(python_version="3.10").pip_install(
     "fastapi",
-    "torch==2.0.1+cpu", 
-    "transformers", 
+    "torch==2.13.0+cpu", 
+    "transformers==5.13.1", 
     "accelerate",
     extra_index_url="https://download.pytorch.org/whl/cpu"
 )
