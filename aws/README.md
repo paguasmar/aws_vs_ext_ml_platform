@@ -300,3 +300,9 @@ curl -X POST $API_URL \
 
 cat response.json
 ```
+
+---
+
+### 🗑️ Infrastructure Cleanup
+When you are done experimenting, it is highly recommended to delete your AWS resources so you do not incur ongoing charges. 
+Please refer to the **[AWS Cleanup Guide](./CLEANUP.md)** for a script that safely tears down the entire infrastructure in the exact reverse order of creation.
