@@ -32,23 +32,8 @@ The **"Developer-First"** approach. The entire infrastructure—from container d
 | **Files Required** | `Dockerfile`, `requirements.txt`, `app.py`, `lambda_function.py`, `deployment.zip` | Just `modal_app.py` |
 | **Cloud Steps** | ECR Push -> IAM Roles -> SageMaker Model -> SageMaker Config -> SageMaker Endpoint -> Lambda IAM -> Lambda Proxy -> API Gateway -> Deployment | `modal deploy` |
 | **Cold Starts** | 15-30 seconds | 2-5 seconds |
+| **Autoscaling (Massive Scale)** | Infinite ceiling, absolute capacity control (slow cold boots) | Instant spike absorption, subject to platform quotas |
 | **Vendor Lock-in** | Low (Container runs anywhere) | High (Code uses Modal decorators) |
-
----
-
-## 📈 Autoscaling Dynamics (At Massive Scale)
-
-If money is no object and you need to scale to thousands of concurrent clients, the choice between these two architectures comes down to **Speed of Scaling** vs. **Absolute Capacity Control**.
-
-### AWS SageMaker: The "Infinite Ceiling"
-If you switch from Serverless SageMaker (which has hard concurrency limits) to **Provisioned SageMaker Endpoints**, AWS scales to infinity.
-* **The Benefit:** You have absolute, granular control over Auto Scaling Groups (ASGs). You can purchase Capacity Reservations to guarantee entire racks of servers are dedicated exclusively to your model. For sustained, massive traffic (like Netflix), AWS is the ultimate winner.
-* **The Drawback:** EC2 instances take time to boot. If traffic spikes from 100 to 10,000 users in 30 seconds, ASGs will trigger, but clients may experience timeouts during the 3-5 minute boot delay.
-
-### External Platform (Modal): The "Spike Absorber"
-Modal pools massive amounts of global compute and relies on a highly optimized, lightweight container runtime (gVisor).
-* **The Benefit:** If traffic spikes to 1,000 requests in 5 seconds, Modal will aggressively fan out to 1,000 parallel containers almost instantly. For unpredictable, highly "spiky" traffic, Modal dramatically outperforms standard AWS Auto Scaling because its cold-start penalty is virtually zero.
-* **The Drawback:** You share a multi-tenant platform with internal quotas. You cannot reserve dedicated hardware in advance, meaning you are at the mercy of their available capacity pool during massive global spikes.
 
 ---
 *Explore the folders above to see the step-by-step implementations!*
