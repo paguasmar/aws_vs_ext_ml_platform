@@ -31,7 +31,7 @@ class QwenModel:
             torch_dtype=torch.float32
         )
 
-    @modal.web_endpoint(method="POST")
+    @modal.fastapi_endpoint(method="POST")
     def generate(self, item: InferenceRequest):
         """This is the actual web endpoint that handles the POST requests."""
         messages = [
