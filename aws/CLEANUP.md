@@ -14,12 +14,16 @@ export LAMBDA_FUNCTION_NAME="sagemaker-invoker"
 export LAMBDA_ROLE_NAME="sagemaker-lambda-role"
 export SAGEMAKER_ROLE_NAME="sagemaker-role"
 
-# 1. Find and Delete the API Gateway
-API_ID=$(aws apigateway get-rest-apis --query "items[?name=='sagemaker-rest-api'].id" --output text --region $AWS_REGION)
-if [ ! -z "$API_ID" ] && [ "$API_ID" != "None" ]; then
-    echo "Deleting API Gateway..."
-    aws apigateway delete-rest-api --rest-api-id $API_ID --region $AWS_REGION
-fi
+# 1. Find and Delete the API Gateway(s)
+# If the creation script was run multiple times, there may be multiple gateways with the same name.
+API_IDS=$(aws apigateway get-rest-apis --query "items[?name=='sagemaker-rest-api'].id" --output text --region $AWS_REGION)
+for API_ID in $API_IDS; do
+    if [ ! -z "$API_ID" ] && [ "$API_ID" != "None" ]; then
+        echo "Deleting API Gateway $API_ID..."
+        aws apigateway delete-rest-api --rest-api-id $API_ID --region $AWS_REGION
+        sleep 2
+    fi
+done
 
 # 2. Delete the Lambda Function
 echo "Deleting Lambda Function..."
