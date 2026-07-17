@@ -35,6 +35,7 @@ app = modal.App("qwen-inference")
 # 2. Define the Container Environment (Equivalent to Dockerfile + requirements.txt)
 # We install PyTorch CPU version to keep it lightweight, just like the AWS version.
 image = modal.Image.debian_slim(python_version="3.10").pip_install(
+    "fastapi",
     "torch==2.0.1+cpu", 
     "transformers", 
     "accelerate",
