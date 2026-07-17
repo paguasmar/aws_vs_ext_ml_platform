@@ -16,7 +16,7 @@ class InferenceRequest(BaseModel):
     text: str
 
 # 3. Define the Web Endpoint and ML Class
-@app.cls(image=image, keep_warm=0)
+@app.cls(image=image, min_containers=0)
 class QwenModel:
     @modal.enter()
     def load_model(self):
